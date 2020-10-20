@@ -8,6 +8,7 @@ export const prefix =
     ? "http://localhost:3000/api/"
     : "https://lex-app.vercel.app/api/";
 
+
 export const causaRoutes = {
   causasTodas: prefix + "causas",
 };

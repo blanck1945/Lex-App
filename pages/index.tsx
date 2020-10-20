@@ -33,6 +33,7 @@ const Login = () => {
       });
 
       const { data } = await Axios.get(usuarioRoute.validateUser);
+      console.log(data)
       if (data.succes) {
         globalState.setGlobalVar(true);
         Router.push("/dash");
