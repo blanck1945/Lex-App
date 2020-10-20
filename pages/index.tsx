@@ -27,19 +27,23 @@ const Login = () => {
   }, []);
 
   const logUser = async (values: any) => {
-    setLoading(true);
-    await Axios({
-      method: "POST",
-      url: usuarioRoutes.loginRoute,
-      data: values,
-    });
-    //const res = await Axios.get(usuarioRoute.validateUser);
-    //window.localStorage.setItem("item", res.data.succes);
+    try {
+      setLoading(true);
+      await Axios({
+        method: "POST",
+        url: usuarioRoutes.loginRoute,
+        data: values,
+      });
+      //const res = await Axios.get(usuarioRoute.validateUser);
+      //window.localStorage.setItem("item", res.data.succes);
 
-    globalState.setGlobalVar(true);
-    Router.push("/dash");
+      globalState.setGlobalVar(true);
+      Router.push("/dash");
 
-    return true;
+      return true;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const register = async (values: any) => {
