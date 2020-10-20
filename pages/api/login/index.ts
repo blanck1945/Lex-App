@@ -53,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             //res.status(200).json({ response: { ...getRes(succMsg) } });
             res.status(200).end({ response: { ...getRes(succMsg) } });
           }
-
+          res.status(200).end({ response: { ...getRes(succMsg) } });
           //res.status(404).json(getRes(erroMsg))
         });
       } catch (err) {
