@@ -30,7 +30,7 @@ export default AutenthicateUser(async (req, res) => {
 });
 
 /*
-{   
+{    
     "fuero": "Fueros Nacionales",
   "justicia": "Justicia Nacional en lo Civil",
   "camara": "Juzgados",
