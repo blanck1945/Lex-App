@@ -51,10 +51,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             );
             console.log("we reach to the response");
             //res.status(200).json({ response: { ...getRes(succMsg) } });
-            res.status(200).send({
+            res.statusCode = 302;
+            res.end();
+            return;
+            /*res.status(200).send({
               succes: true,
               msg: succMsg,
-            });
+            });*/
           }
 
           //res.status(200).json({ response: { ...getRes(succMsg) } });
@@ -62,7 +65,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
       } catch (err) {
         console.log(err);
-        res.status(404).send({
+        res.status(400).send({
           succes: false,
           data: err,
         });
