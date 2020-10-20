@@ -19,6 +19,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       usuario: req.body.usuario,
     });
     res.status(200).json({ response: { ...getRes(succMsg) } });
+    res.end();
 
     if (!registerUser) {
       res.status(400).json({
