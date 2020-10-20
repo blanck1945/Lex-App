@@ -51,7 +51,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             );
             console.log("we reach to the response");
             //res.status(200).json({ response: { ...getRes(succMsg) } });
-            return;
+            return res.status(200).json({
+              succes: true,
+              msg: succMsg,
+            });
           }
 
           res.status(200).json({
