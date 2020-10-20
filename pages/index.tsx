@@ -28,6 +28,8 @@ const Login = () => {
   }, []);
 
   const logUser = async (values: any) => {
+    delete values.user
+
     setLoading(true);
     const { data } = await Axios({
       method: "POST",
