@@ -1,0 +1,105 @@
+.container-causa {
+  display: grid;
+  grid-template-columns: 40% 40%;
+  min-width: 80%;
+  min-height: 300px;
+  justify-content: center;
+}
+
+.juzgado-form-class {
+  background-color: blue;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tool-row-2 {
+  display: grid;
+  justify-content: space-between;
+}
+
+.causa-row-2 {
+  display: grid;
+  grid-template-columns: 15% 70% 14%;
+}
+
+.causa-row-4 {
+  display: grid;
+  grid-template-columns: 15% 24% 38% 10% 14%;
+}
+
+.juz-row-6 {
+  display: grid;
+
+  grid-template-columns: 10% 16% 25% 25% 20%;
+}
+
+.data-row {
+  display: grid;
+  grid-template-columns: 25% 75%;
+}
+
+.home-row {
+  display: grid;
+  grid-template-columns: 10% 13% 32% 20% 30%;
+  align-items: center;
+}
+
+.home-row-2 {
+  display: grid;
+  grid-template-columns: 10% 25% 37% 14% 14%;
+  align-items: center;
+}
+
+.content_div {
+  min-height: 300px;
+}
+
+.causas_div {
+  display: grid;
+  grid-template-columns: 40% 40%;
+}
+
+.causa-row {
+  display: grid;
+  grid-template-columns: 25% 75%;
+}
+
+.causa-row-3 {
+  display: grid;
+  grid-template-columns: 20% 20% 55%;
+}
+
+.header {
+  background-color: white;
+}
+
+.header:hover {
+  background-color: rgb(0, 196, 167);
+  color: white;
+  transition: 0.2s ease-in-out;
+}
+
+.peg {
+  box-shadow: 0 0 10px brown;
+}
+
+.mark-row:hover {
+  background-color: #034ea2;
+  color: white;
+  transition: 0.2s ease-in;
+}
+
+.logo-2 {
+  width: 65%;
+}
+
+.logo-1 {
+  width: 100%;
+}
+
+.logo {
+  width: 40%;
+}

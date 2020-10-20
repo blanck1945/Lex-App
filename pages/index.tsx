@@ -1,0 +1,109 @@
+import { useContext, useEffect, useState } from "react";
+import { usuarioRoute, usuarioRoutes } from "../api/routes";
+import Axios from "axios";
+import Header from "../components/Header/Header";
+import UserAndEmailAndPassword from "../formControl/form/FormComponents/UserAndEmailAndPass";
+import UserAndPassword from "../formControl/form/FormComponents/UserAndPassword";
+import Router from "next/router";
+import GlobalContext from "../context/globalContext";
+
+const Login = () => {
+  const [loginDis, setLoginDis] = useState<boolean>(true);
+  const [errorMsg, setErrorMsg] = useState<string>(undefined);
+
+  const { globalState } = useContext(GlobalContext);
+
+  const logUser = async (values: any) => {
+    try {
+      await Axios({
+        method: "POST",
+        url: usuarioRoutes.loginRoute,
+        data: values,
+      });
+
+      const { data } = await Axios.get(usuarioRoute.validateUser);
+      if (data.succes) {
+        globalState.setGlobalVar(true);
+        Router.push("/dash");
+      }
+
+      return true;
+    } catch (err) {
+      return false;
+    }
+  };
+
+  const register = async (values: any) => {
+    setErrorMsg(undefined);
+    const match = checkPass(values.password, values.confirmPassword);
+    console.log(match);
+    if (!match) {
+      setErrorMsg("La contraseña no coincide");
+      return false;
+    }
+
+    delete values.confirmPassword;
+
+    const { data } = await Axios({
+      method: "POST",
+      url: usuarioRoutes.registerRoute,
+      data: values,
+    });
+    setLoginDis(true);
+    return true;
+  };
+
+  const checkPass = (pass: string, pass2: string) => {
+    return pass === pass2 ? true : false;
+  };
+
+  const formClass = "has-background-white is-flex is-dis-col is-align-center";
+  const h4Class = "is-flex  is-justify-center pb-4 py-2 font-size-3";
+  const errorClass =
+    "is-flex  is-justify-center pb-4 py-2 font-size-4 has-background-danger has-text-white is-wm-40 m-auto is-click";
+  const spanClass = "has-text-judicial is-click is-bold font-size-3 ml-2";
+
+  return (
+    <div className="container has-background-white">
+      <Header>{loginDis ? "Iniciar Sesion" : "Registrar Usuario"}</Header>
+      {loginDis ? (
+        <>
+          <UserAndPassword
+            submit={logUser}
+            form_class={formClass}
+            customUser="usuario"
+          />
+          <h4 className={h4Class}>
+            Si no tiene cuenta{" "}
+            <span className={spanClass} onClick={() => setLoginDis(false)}>
+              registrese
+            </span>
+          </h4>
+        </>
+      ) : (
+        <>
+          <UserAndEmailAndPassword
+            submit={register}
+            form_class={formClass}
+            customUser="usuario"
+          />
+          <div>
+            {errorMsg && (
+              <h4 className={errorClass} onClick={() => setErrorMsg(undefined)}>
+                {errorMsg}
+              </h4>
+            )}
+            <h4 className={h4Class}>
+              Si ya tiene cuenta
+              <span className={spanClass} onClick={() => setLoginDis(true)}>
+                inicie sesión
+              </span>
+            </h4>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default Login;
