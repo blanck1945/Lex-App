@@ -43,6 +43,8 @@ const Login = () => {
       return true;
     } catch (err) {
       console.log(err.message);
+      console.log(err.msg);
+      console.log(err);
       console.log("Process end");
       setLoading(false);
     }
