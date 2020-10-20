@@ -8,7 +8,6 @@ export const prefix =
     ? "http://localhost:3000/api/"
     : "https://lex-app-n4w7qgsyr.vercel.app/api/";
 
-    https://lex-app-n4w7qgsyr.vercel.app/
 
     //"https://lex-app.vercel.app/api/"
 
