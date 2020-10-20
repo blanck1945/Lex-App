@@ -24,7 +24,6 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
 
     switch(method){
         case "POST":
-            try{
 
                 const registerUser = await Models.UsuarioModel.findOne({
                     usuario: req.body.usuario
@@ -53,17 +52,7 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
                         res.end()
                     }
                 
-            }
-
-                
-            )
-            }
-            catch(err){
-                res.status(404).json({msg: "Error en la autenticación"})
-            }
-            break;
-            default: 
-            res.status(500).json({msg: "Internal Error Server"})
-            res.end()
+            })
+          
     }
 }
