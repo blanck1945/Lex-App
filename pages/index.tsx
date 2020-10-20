@@ -28,12 +28,11 @@ const Login = () => {
 
   const logUser = async (values: any) => {
     setLoading(true);
-    const { data } = await Axios({
+    await Axios({
       method: "POST",
       url: usuarioRoutes.loginRoute,
       data: values,
     });
-    console.log(data);
     //const res = await Axios.get(usuarioRoute.validateUser);
     //window.localStorage.setItem("item", res.data.succes);
 

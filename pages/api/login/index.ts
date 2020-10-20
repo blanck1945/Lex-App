@@ -18,6 +18,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const registerUser = await Models.UsuarioModel.findOne({
       usuario: req.body.usuario,
     });
+    res.status(200).json({ response: { ...getRes(succMsg) } });
+
     if (!registerUser) {
       res.status(400).json({
         msg: erroMsg,
