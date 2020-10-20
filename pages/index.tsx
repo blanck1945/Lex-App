@@ -8,6 +8,7 @@ import Router from "next/router";
 import GlobalContext from "../context/globalContext";
 import Loader from "react-loader-spinner";
 import getConfig from "next/config";
+import ValidationUser from "../components/validatationUser/ValidationUser";
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -37,16 +38,13 @@ const Login = () => {
       //const res = await Axios.get(usuarioRoute.validateUser);
       //window.localStorage.setItem("item", res.data.succes);
 
-      globalState.setGlobalVar(true);
+      ValidationUser();
       Router.push("/dash");
 
       return true;
     } catch (err) {
-      console.log(err.message);
-      console.log(err.msg);
-      console.log(err);
-      console.log("Process end");
       setLoading(false);
+      Router.push("/dash");
     }
   };
 

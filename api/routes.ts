@@ -4,9 +4,11 @@ export const rootURL =
     : "https://lex-app.vercel.app/";
 
 export const prefix =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000/api/"
-    : "https://lex-app.vercel.app/api/"
+  process.env.NODE_ENV === "production"
+    ? "https://lex-app.vercel.app/api/"
+    : "http://localhost:3000/api/";
+
+//"https://lex-app.vercel.app/api/"
 
 export const causaRoutes = {
   causasTodas: prefix + "causas",
@@ -17,15 +19,15 @@ export const juzgadoRoutes = {
 };
 
 export const abogadosRoutes = {
-  abogadosTodos: prefix + "abogados"
-}
+  abogadosTodos: prefix + "abogados",
+};
 
 export const usuarioRoutes = {
   loginRoute: prefix + "login",
   registerRoute: prefix + "register",
-  logOutRoute: prefix + "logout"
-}
+  logOutRoute: prefix + "logout",
+};
 
 export const usuarioRoute = {
-  validateUser: prefix + "usuario"
-}
+  validateUser: prefix + "usuario",
+};
