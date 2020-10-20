@@ -6,8 +6,11 @@ export const rootURL =
 export const prefix =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000/api/"
-    : "https://lex-app.vercel.app/api/";
+    : "https://lex-app-n4w7qgsyr.vercel.app/api/";
 
+    https://lex-app-n4w7qgsyr.vercel.app/
+
+    //"https://lex-app.vercel.app/api/"
 
 export const causaRoutes = {
   causasTodas: prefix + "causas",
