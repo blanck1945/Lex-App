@@ -32,10 +32,10 @@ const Login = () => {
         data: values,
       });
 
-      const res = await Axios.get(usuarioRoute.validateUser);
-      window.localStorage.setItem("item", res.data.succes);
+      //const res = await Axios.get(usuarioRoute.validateUser);
+      //window.localStorage.setItem("item", res.data.succes);
 
-      if (res.data.succes) {
+      if (data.succes) {
         globalState.setGlobalVar(true);
         Router.push("/dash");
       }
