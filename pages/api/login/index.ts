@@ -10,11 +10,11 @@ dbConnect();
 
 
 
-export const config = {
+/*export const config = {
     api: {
       externalResolver: true,
     },
-  }
+  }*/
 
 export default async (req:NextApiRequest, res: NextApiResponse) => {
     const { method } = req;
@@ -34,10 +34,8 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
                 })
             }
             
-            await compare(req.body.password, registerUser.password, async function(err, result){
-                    if(!err && result){
+            await compare(req.body.password, registerUser.password)
                         const token = sign({ userID: registerUser._id, userEmail: registerUser.email  }, process.env.JWT_SECRET, {expiresIn: "3h"});
-                            console.log(token)
                         res.setHeader("Set-Cookie", cookie.serialize("authCookie", token, {
                             httpOnly: true,
                             secure: process.env.NODE_ENV !== "development" ,
@@ -47,12 +45,10 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
                         }))
                         res.status(200).json({response: {...getRes(succMsg)}})
                         res.end()
-                    }else{
-                        res.status(404).json(getRes(erroMsg))
-                        res.end()
-                    }
+                        //res.status(404).json(getRes(erroMsg))
+                    
                 
-            })
+            
           
     }
 }
