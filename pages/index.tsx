@@ -28,13 +28,16 @@ const Login = () => {
   }, []);
 
   const logUser = async (values: any) => {
-    delete values.user
-
     setLoading(true);
+    const newUser = {
+      ususario: values.user,
+      password: values.password,
+    };
+
     const { data } = await Axios({
       method: "POST",
       url: usuarioRoutes.loginRoute,
-      data: values,
+      data: newUser,
     });
     //const res = await Axios.get(usuarioRoute.validateUser);
     //window.localStorage.setItem("item", res.data.succes);
@@ -92,11 +95,7 @@ const Login = () => {
           <Header>{loginDis ? "Iniciar Sesion" : "Registrar Usuario"}</Header>
           {loginDis ? (
             <>
-              <UserAndPassword
-                submit={logUser}
-                form_class={formClass}
-                customUser="usuario"
-              />
+              <UserAndPassword submit={logUser} form_class={formClass} />
               <h4 className={h4Class}>
                 Si no tiene cuenta{" "}
                 <span className={spanClass} onClick={() => setLoginDis(false)}>

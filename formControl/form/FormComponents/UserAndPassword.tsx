@@ -52,7 +52,7 @@ const UserAndPassword = ({
       <ReactFormControl
         formInitialData={{
           intialValues: initialValues,
-          submit: submit(),
+          submit: submit,
         }}
         formConfig={{
           formFields: formFields,
