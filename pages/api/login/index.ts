@@ -38,7 +38,7 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
             await compare(req.body.password, registerUser.password, async function(err, result){
                     if(!err && result){
                         const token = sign({ userID: registerUser._id, userEmail: registerUser.email  }, process.env.JWT_SECRET, {expiresIn: "3h"});
-                        
+                            console.log(token)
                         res.setHeader("Set-Cookie", cookie.serialize("authCookie", token, {
                             httpOnly: true,
                             secure: process.env.NODE_ENV !== "development" ,
