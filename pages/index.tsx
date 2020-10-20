@@ -42,7 +42,7 @@ const Login = () => {
 
       return true;
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       console.log("Process end");
       setLoading(false);
     }
