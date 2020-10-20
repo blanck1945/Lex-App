@@ -17,13 +17,9 @@ dbConnect();
   }*/
 
 export default async (req:NextApiRequest, res: NextApiResponse) => {
-    const { method } = req;
 
     const erroMsg = "Algo fallo en la autenticación"
     const succMsg = "Usuario validado con exito"
-
-    switch(method){
-        case "POST":
 
                 const registerUser = await Models.UsuarioModel.findOne({
                     usuario: req.body.usuario
@@ -46,9 +42,4 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
                         res.status(200).json({response: {...getRes(succMsg)}})
                         res.end()
                         //res.status(404).json(getRes(erroMsg))
-                    
-                
-            
-          
-    }
 }
