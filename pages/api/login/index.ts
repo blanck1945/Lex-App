@@ -42,16 +42,19 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
           "Set-Cookie",
           cookie.serialize("authCookie", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production" ? true : false,
-            sameSite: "lax",
+            secure: process.env.NODE_ENV !== "development",
             maxAge: 3600 * 3,
             path: "/",
           })
         );
+        console.log(succMsg);
+        console.log(res);
+
         res.end(succMsg);
       }
     });
   } catch (error) {
+    console.log("passing an error");
     console.log(error);
     res.status(401).end(error.message);
   }

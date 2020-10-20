@@ -116,7 +116,6 @@ const Juzgados = ({ juzgados }: JuzgadosProps) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const cookie = ctx.req?.headers.cookie;
-  console.log(cookie);
   if (!cookie) {
     ctx.res?.writeHead(302, {
       Location: rootURL,
