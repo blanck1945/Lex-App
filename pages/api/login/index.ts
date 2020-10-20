@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
     //res.status(200).json({ response: { ...getRes(succMsg) } });
     //res.end();
-
+    console.log(registerUser);
     if (!registerUser) {
       res.status(400).json({
         msg: erroMsg,
@@ -31,12 +31,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       err,
       result
     ) {
+      console.log(result);
       if (!err && result) {
         const token = sign(
           { userID: registerUser._id, userEmail: registerUser.email },
           process.env.JWT_SECRET,
           { expiresIn: "3h" }
         );
+        console.log(token);
+
         res.setHeader(
           "Set-Cookie",
           cookie.serialize("authCookie", token, {
