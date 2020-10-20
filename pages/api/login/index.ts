@@ -18,8 +18,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const registerUser = await Models.UsuarioModel.findOne({
       usuario: req.body.usuario,
     });
-    res.status(200).json({ response: { ...getRes(succMsg) } });
-    res.end();
+    //res.status(200).json({ response: { ...getRes(succMsg) } });
+    //res.end();
 
     if (!registerUser) {
       res.status(400).json({
@@ -27,27 +27,33 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       });
     }
 
-    await compare(req.body.password, registerUser.password);
-    const token = sign(
-      { userID: registerUser._id, userEmail: registerUser.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "3h" }
-    );
-    return new Promise((resolve, rejex) => {
-      res.setHeader(
-        "Set-Cookie",
-        cookie.serialize("authCookie", token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== "development",
-          sameSite: "strict",
-          maxAge: 3600 * 3,
-          path: "/",
-        })
-      );
-      res.status(200).json({ response: { ...getRes(succMsg) } });
-      res.end();
-      return resolve();
+    await compare(req.body.password, registerUser.password, async function (
+      err,
+      result
+    ) {
+      if (!err && result) {
+        const token = sign(
+          { userID: registerUser._id, userEmail: registerUser.email },
+          process.env.JWT_SECRET,
+          { expiresIn: "3h" }
+        );
+        res.setHeader(
+          "Set-Cookie",
+          cookie.serialize("authCookie", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            sameSite: "strict",
+            maxAge: 3600 * 3,
+            path: "/",
+          })
+        );
+
+        res.status(200).json({ response: { ...getRes(succMsg) } });
+      } else {
+        res.status(404).json({ msg: err });
+      }
     });
+
     //res.status(404).json(getRes(erroMsg))
   } else {
     res.status(400).json({ msg: "No Request" });
