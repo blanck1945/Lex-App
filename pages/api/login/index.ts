@@ -16,59 +16,57 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   switch (method) {
     case "POST":
-      try {
-        const registerUser = await Models.UsuarioModel.findOne({
-          usuario: req.body.usuario,
+      const registerUser = await Models.UsuarioModel.findOne({
+        usuario: req.body.usuario,
+      });
+      if (!registerUser) {
+        res.status(400).json({
+          msg: erroMsg,
         });
-        //res.status(200).json({ response: { ...getRes(succMsg) } });
-        //res.end();
-        if (!registerUser) {
-          res.status(400).json({
-            msg: erroMsg,
+      }
+
+      await compare(req.body.password, registerUser.password, async function (
+        err,
+        result
+      ) {
+        if (!err && result) {
+          const token = sign(
+            { userID: registerUser._id, userEmail: registerUser.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "3h" }
+          );
+
+          res.setHeader(
+            "Set-Cookie",
+            cookie.serialize("authCookie", token, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV !== "development" ? true : false,
+              sameSite: "strict",
+              maxAge: 3600 * 3,
+              path: "/",
+            })
+          );
+          res.status(200).json({
+            succes: true,
+            msg: succMsg,
           });
         }
+      });
+      break;
+    default:
+      res.setHeader("Allow", ["POST", "PUT"]);
+      res.status(405).end(`Method ${method} Not Allowed`);
+  }
+};
 
-        await compare(req.body.password, registerUser.password, async function (
-          err,
-          result
-        ) {
-          if (!err && result) {
-            const token = sign(
-              { userID: registerUser._id, userEmail: registerUser.email },
-              process.env.JWT_SECRET,
-              { expiresIn: "3h" }
-            );
+/*
 
-            res.setHeader(
-              "Set-Cookie",
-              cookie.serialize("authCookie", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV !== "development" ? true : false,
-                sameSite: "strict",
-                maxAge: 3600 * 3,
-                path: "/",
-              })
-            );
-            console.log("we reach to the response");
             //res.status(200).json({ response: { ...getRes(succMsg) } });
-            res.statusCode = 302;
-            res.end();
-            return;
             /*res.status(200).send({
               succes: true,
               msg: succMsg,
             });*/
-          }
 
-          //res.status(200).json({ response: { ...getRes(succMsg) } });
-          //res.status(404).json(getRes(erroMsg))
-        });
-      } catch (err) {
-        console.log(err);
-        res.status(400).send({
-          succes: false,
-          data: err,
-        });
-      }
-  }
-};
+/*
+      //res.status(200).json({ response: { ...getRes(succMsg) } });
+          //res.status(404).json(getRes(erroMsg))*/
