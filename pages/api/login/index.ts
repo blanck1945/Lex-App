@@ -10,11 +10,12 @@ dbConnect();
 
 
 
-/*export const config = {
+export const config = {
     api: {
       externalResolver: true,
+      bodyParser: true
     },
-  }*/
+  }
 
 export default async (req:NextApiRequest, res: NextApiResponse) => {
 
