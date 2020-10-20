@@ -44,9 +44,9 @@ export default async (req:NextApiRequest, res: NextApiResponse) => {
                             maxAge: 3600 * 3,
                             path: "/"
                         }))
-                        res.status(200).json({response: {...getRes(succMsg)}})
+                        return res.status(200).json({response: {...getRes(succMsg)}})
                         res.end()
                         //res.status(404).json(getRes(erroMsg))
                     }
-                    console.log("returnign something")
+                
                     }
