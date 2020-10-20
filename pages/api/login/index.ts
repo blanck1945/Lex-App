@@ -16,44 +16,48 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   switch (method) {
     case "POST":
-      const registerUser = await Models.UsuarioModel.findOne({
-        usuario: req.body.usuario,
-      });
-      //res.status(200).json({ response: { ...getRes(succMsg) } });
-      //res.end();
-      if (!registerUser) {
-        res.status(400).json({
-          msg: erroMsg,
+      try {
+        const registerUser = await Models.UsuarioModel.findOne({
+          usuario: req.body.usuario,
         });
-      }
-
-      await compare(req.body.password, registerUser.password, async function (
-        err,
-        result
-      ) {
-        if (!err && result) {
-          const token = sign(
-            { userID: registerUser._id, userEmail: registerUser.email },
-            process.env.JWT_SECRET,
-            { expiresIn: "3h" }
-          );
-
-          res.setHeader(
-            "Set-Cookie",
-            cookie.serialize("authCookie", token, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV !== "development" ? true : false,
-              sameSite: "strict",
-              maxAge: 3600 * 3,
-              path: "/",
-            })
-          );
-          console.log("we reach to the response");
-          //res.status(200).json({ response: { ...getRes(succMsg) } });
-          res.status(200).end({ response: { ...getRes(succMsg) } });
+        //res.status(200).json({ response: { ...getRes(succMsg) } });
+        //res.end();
+        if (!registerUser) {
+          res.status(400).json({
+            msg: erroMsg,
+          });
         }
 
-        //res.status(404).json(getRes(erroMsg))
-      });
+        await compare(req.body.password, registerUser.password, async function (
+          err,
+          result
+        ) {
+          if (!err && result) {
+            const token = sign(
+              { userID: registerUser._id, userEmail: registerUser.email },
+              process.env.JWT_SECRET,
+              { expiresIn: "3h" }
+            );
+
+            res.setHeader(
+              "Set-Cookie",
+              cookie.serialize("authCookie", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV !== "development" ? true : false,
+                sameSite: "strict",
+                maxAge: 3600 * 3,
+                path: "/",
+              })
+            );
+            console.log("we reach to the response");
+            //res.status(200).json({ response: { ...getRes(succMsg) } });
+            res.status(200).end({ response: { ...getRes(succMsg) } });
+          }
+
+          //res.status(404).json(getRes(erroMsg))
+        });
+      } catch (err) {
+        console.log(err);
+      }
   }
 };
