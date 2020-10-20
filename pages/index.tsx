@@ -26,15 +26,15 @@ const Login = () => {
   const logUser = async (values: any) => {
     try {
       setLoading(true);
-      await Axios({
+      const {data} = await Axios({
         method: "POST",
         url: usuarioRoutes.loginRoute,
         data: values,
       });
-
-      const { data } = await Axios.get(usuarioRoute.validateUser);
       console.log(data)
-      if (data.succes) {
+
+      const res = await Axios.get(usuarioRoute.validateUser);
+      if (res.data.succes) {
         globalState.setGlobalVar(true);
         Router.push("/dash");
       }
