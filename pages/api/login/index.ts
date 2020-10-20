@@ -8,7 +8,7 @@ import cookie from "cookie";
 
 dbConnect();
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function login(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req;
 
   const erroMsg = "Algo fallo en la autenticación";
@@ -46,7 +46,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
               path: "/",
             })
           );
-          res.status(200).json({
+          res.json({
             succes: true,
             msg: succMsg,
           });
@@ -57,7 +57,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       res.setHeader("Allow", ["POST", "PUT"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
-};
+}
 
 /*
 
