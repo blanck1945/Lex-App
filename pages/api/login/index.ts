@@ -48,10 +48,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
             path: "/",
           })
         );
-        res.end({
-          succes: true,
-          msg: succMsg,
-        });
+        res.end(succMsg);
       }
     });
   } catch (error) {
