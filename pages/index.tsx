@@ -28,24 +28,23 @@ const Login = () => {
   }, []);
 
   const logUser = async (values: any) => {
-    try {
-      setLoading(true);
-      await Axios({
-        method: "POST",
-        url: usuarioRoutes.loginRoute,
-        data: values,
-      });
-      //const res = await Axios.get(usuarioRoute.validateUser);
-      //window.localStorage.setItem("item", res.data.succes);
+    setLoading(true);
+    const { data } = await Axios({
+      method: "POST",
+      url: usuarioRoutes.loginRoute,
+      data: values,
+    });
+    //const res = await Axios.get(usuarioRoute.validateUser);
+    //window.localStorage.setItem("item", res.data.succes);
+    console.log(data);
 
-      ValidationUser();
-      Router.push("/dash");
+    console.log("Validando Usuario");
+    ValidationUser();
+    console.log("Utilizando Router");
+    Router.push("/dash");
 
-      return true;
-    } catch (err) {
-      setLoading(false);
-      Router.push("/dash");
-    }
+    console.log("Reseteando los valores del formulario");
+    return true;
   };
 
   const register = async (values: any) => {

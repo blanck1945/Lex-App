@@ -47,15 +47,11 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
             path: "/",
           })
         );
-        console.log(succMsg);
-        console.log(res);
 
         res.end(succMsg);
       }
     });
   } catch (error) {
-    console.log("passing an error");
-    console.log(error);
     res.status(401).end(error.message);
   }
 }
