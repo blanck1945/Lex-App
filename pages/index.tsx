@@ -7,6 +7,9 @@ import UserAndPassword from "../formControl/form/FormComponents/UserAndPassword"
 import Router from "next/router";
 import GlobalContext from "../context/globalContext";
 import Loader from "react-loader-spinner";
+import getConfig from "next/config";
+
+const { publicRuntimeConfig } = getConfig();
 
 const Login = () => {
   const [loginDis, setLoginDis] = useState<boolean>(true);
@@ -31,14 +34,12 @@ const Login = () => {
         url: usuarioRoutes.loginRoute,
         data: values,
       });
-
+      console.log(data);
       //const res = await Axios.get(usuarioRoute.validateUser);
       //window.localStorage.setItem("item", res.data.succes);
 
-      if (data.succes) {
-        globalState.setGlobalVar(true);
-        Router.push("/dash");
-      }
+      globalState.setGlobalVar(true);
+      Router.push("/dash");
 
       return true;
     } catch (err) {
