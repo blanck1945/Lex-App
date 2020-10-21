@@ -5,7 +5,7 @@ import { AutenthicateUser } from "../middleware/Auth";
 
 dbConnect();
 
-export default AutenthicateUser(async (req, res) => {
+export default async (req, res) => {
   const { method } = req;
 
   switch (method) {
@@ -21,13 +21,13 @@ export default AutenthicateUser(async (req, res) => {
       try {
         await Juzgado.create(req.body);
 
-        res.status(201).json(getRes({msg: "Juzgado creado con exito"}));
+        res.status(201).json(getRes({ msg: "Juzgado creado con exito" }));
       } catch (err) {
         res.status(400).json(getRes(err));
       }
       break;
   }
-});
+};
 
 /*
 {    

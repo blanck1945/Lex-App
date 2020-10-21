@@ -22,8 +22,6 @@ const Juzgados = ({ juzgados }: JuzgadosProps) => {
   const [succMsg, setSuccMsg] = useState<boolean>(false);
   const [jusDis, setJusDis] = useState<string>("Ver Todos");
 
-  ValidationUser();
-
   useEffect(() => {
     return () => {
       setSuccMsg(false);
@@ -115,7 +113,7 @@ const Juzgados = ({ juzgados }: JuzgadosProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const cookie = ctx.req?.headers.cookie;
+  /* const cookie = ctx.req?.headers.cookie;
   if (!cookie) {
     ctx.res?.writeHead(302, {
       Location: rootURL,
@@ -123,17 +121,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     ctx.res.end();
     return {};
-  }
+  }*/
 
-  const response = await Axios.get(juzgadoRoutes.juzgadoTodos, {
-    headers: {
-      cookie: cookie!,
-    },
-  });
+  const response = await Axios.get(juzgadoRoutes.juzgadoTodos);
 
   return {
     props: {
-      juzgados: response.data.data,
+      juzgados: JSON.parse(JSON.stringify(response.data.data)),
     },
   };
 };

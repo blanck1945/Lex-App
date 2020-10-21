@@ -32,28 +32,6 @@ const Login = () => {
     };
   }, []);
 
-  const logUser = async (values: any) => {
-    setLoading(true);
-    const newUser = {
-      ususario: values.user,
-      password: values.password,
-    };
-
-    const { data } = await Axios({
-      method: "POST",
-      url: usuarioRoutes.loginRoute,
-      data: newUser,
-    });
-    //const res = await Axios.get(usuarioRoute.validateUser);
-    //window.localStorage.setItem("item", res.data.succes);
-    console.log(data);
-
-    ValidationUser();
-    Router.push("/dash");
-
-    return true;
-  };
-
   const register = async (values: any) => {
     setLoading(true);
     setErrorMsg(undefined);
@@ -80,17 +58,21 @@ const Login = () => {
     return pass === pass2 ? true : false;
   };
 
-  const postearUsuario = async (e: any) => {
-    e.preventDefault();
+  const postearUsuario = async (values: any) => {
     setLoading(true);
+
+    const newUser = {
+      usuario: values.user,
+      password: values.password,
+    };
 
     DBinit()
       .auth()
-      .signInWithEmailAndPassword(user.usuario, user.password)
+      .signInWithEmailAndPassword(newUser.usuario, newUser.password)
       .then((user) => {
         if (user) {
-          globalState.setGlobalVar(true);
           Router.push("/dash");
+          globalState.setGlobalVar(true);
         } else {
           setErrorMsg("Error de autenticación");
         }
@@ -114,41 +96,7 @@ const Login = () => {
         <>
           <Header>{loginDis ? "Iniciar Sesion" : "Registrar Usuario"}</Header>
           {loginDis ? (
-            <form onSubmit={postearUsuario}>
-              <div>
-                <label>Usuario</label>
-                <input
-                  type="text"
-                  placeholder="usuario"
-                  value={user.usuario}
-                  onChange={(e) =>
-                    setUser({ ...user, usuario: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label>Password</label>
-                <input
-                  type="text"
-                  placeholder="Password"
-                  value={user.password}
-                  onChange={(e) =>
-                    setUser({ ...user, password: e.target.value })
-                  }
-                />
-              </div>
-              {errorMsg && (
-                <h4
-                  className={errorClass}
-                  onClick={() => setErrorMsg(undefined)}
-                >
-                  {errorMsg}
-                </h4>
-              )}
-              <button className="has-background-judicial px-2 py-2 button my-4 has-text-white m-auto is-bor-4">
-                Iniciar Sesión
-              </button>
-            </form>
+            <UserAndPassword submit={postearUsuario} form_class={formClass} />
           ) : (
             <>
               <UserAndEmailAndPassword
@@ -190,3 +138,40 @@ export default Login;
                   registrese
                 </span>
               </h4>*/
+
+/*
+               <form onSubmit={postearUsuario}>
+              <div>
+                <label>Usuario</label>
+                <input
+                  type="text"
+                  placeholder="usuario"
+                  value={user.usuario}
+                  onChange={(e) =>
+                    setUser({ ...user, usuario: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label>Password</label>
+                <input
+                  type="text"
+                  placeholder="Password"
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser({ ...user, password: e.target.value })
+                  }
+                />
+              </div>
+              {errorMsg && (
+                <h4
+                  className={errorClass}
+                  onClick={() => setErrorMsg(undefined)}
+                >
+                  {errorMsg}
+                </h4>
+              )}
+              <button className="has-background-judicial px-2 py-2 button my-4 has-text-white m-auto is-bor-4">
+                Iniciar Sesión
+              </button>
+            </form>*/
