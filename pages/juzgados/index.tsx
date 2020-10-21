@@ -14,6 +14,8 @@ import { JuzgadoData, Secretaria } from "../../Interfaces/Causa";
 import { GetServerSideProps, GetStaticProps } from "next";
 import ValidationUser from "../../components/validatationUser/ValidationUser";
 import Juzgado from "../../models/Juzgado";
+import dbConnect from "../../db/dbConnect";
+import { Models } from "../../models";
 
 interface JuzgadosProps {
   juzgados?: any;
@@ -113,7 +115,8 @@ const Juzgados = ({ juzgados }: JuzgadosProps) => {
   );
 };
 
-Juzgados.getInitialProps = async () => {
+export async function getStaticProps(ctx) {
+  await dbConnect();
   /* const cookie = ctx.req?.headers.cookie;
   if (!cookie) {
     ctx.res?.writeHead(302, {
@@ -123,12 +126,12 @@ Juzgados.getInitialProps = async () => {
     ctx.res.end();
     return {};
   }*/
-
-  const response = await Axios.get(juzgadoRoutes.juzgadoTodos);
-
+  const juzgados = await Models.JuzgadoModel.find({});
   return {
-    juzgados: JSON.parse(JSON.stringify(response.data.data)),
+    props: {
+      juzgados: JSON.parse(JSON.stringify(juzgados)),
+    },
   };
-};
+}
 
 export default Juzgados;

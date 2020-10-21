@@ -11,23 +11,18 @@ import {
 } from "../../formControl/form/Forms/AbogadoForm/AbogadosInputs";
 import ReactFormControl from "../../formControl/form/ReactFormControl";
 import { AbogadoInterface } from "../../Interfaces/Abogado";
-import { Models } from "../../models";
+import useSWR, { mutate } from "swr";
+import AxiosFetch from "../../util/fetcher";
 
 interface AbogadosProps {
   abogados: AbogadoInterface[];
 }
 
 const Abogados = ({ abogados }: AbogadosProps) => {
-  const [abogadosArr, setAbogadorArr] = useState<AbogadoInterface[]>([]);
-
-  ValidationUser();
-
-  useEffect(() => {
-    if (abogadosArr === undefined) {
-      setAbogadorArr(abogados);
-    }
-  }, []);
-
+  const { data: abogadosArr } = useSWR(
+    abogadosRoutes.abogadosTodos,
+    AxiosFetch
+  );
   const handleAbogado = async (values: any) => {
     const abogado = {
       ...values,
@@ -53,7 +48,7 @@ const Abogados = ({ abogados }: AbogadosProps) => {
         data: abogado,
       });
 
-      setAbogadorArr([...abogadosArr, abogado]);
+      mutate(abogadosRoutes.abogadosTodos);
     } catch (err) {
       console.log(err);
     }
@@ -62,13 +57,13 @@ const Abogados = ({ abogados }: AbogadosProps) => {
   return (
     <div className="is-flex is-justify-evenly">
       <div className="is-flex has-background-light  is-dis-col is-h-full is-wm-45">
-        {abogadosArr.length === 0 && (
+        {abogadosArr === undefined && (
           <h3 className="has-text-judicial is-bold font-size-3 is-flex is-hm-300 is-align-center  is-justify-center">
             No hay abogados agregados
           </h3>
         )}
-        {abogadosArr !== undefined
-          ? abogadosArr.map((abogado: AbogadoInterface) => (
+        {abogadosArr !== undefined && abogadosArr.data.length !== 0
+          ? abogadosArr.data.map((abogado: AbogadoInterface) => (
               <div className="is-w-full has-background-white is-sha-p  mb-4 pl-2 py-2 ">
                 <h3 className="is-bold">Doctor/ra: {abogado.abogado}</h3>
                 <h3 className="is-bold">
@@ -98,17 +93,19 @@ const Abogados = ({ abogados }: AbogadosProps) => {
     </div>
   );
 };
+/*
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  await dbConnect();
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  dbConnect();
-
-  const abogados = await Models.AbogadoModel.find({});
-
-  return {
-    props: {
-      abogados: JSON.parse(JSON.stringify(abogados)),
-    },
-  };
-};
+  switch (ctx.req.method) {
+    case "GET":
+      const abogados = await Models.AbogadoModel.find({});
+      return {
+        props: {
+          abogados,
+        },
+      };
+  }
+};*/
 
 export default Abogados;

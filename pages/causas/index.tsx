@@ -34,7 +34,6 @@ const Causas = ({ causas }: CausasProps) => {
   if (!causas) {
     router.push("/");
   }
-  ValidationUser();
 
   const [causaDis, setCausaDis] = useState<string>("Ver Causas");
   const [succMsg, setSuccMsg] = useState<SuccMsgInterface>({
@@ -136,14 +135,14 @@ const Causas = ({ causas }: CausasProps) => {
 
 //const { publicRuntimeConfig } = getConfig();
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export async function getStaticProps(ctx) {
   const { data } = await Axios.get(causaRoutes.causasTodas);
   return {
     props: {
       causas: data.data,
     },
   };
-};
+}
 
 /*export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await dbConnect();
