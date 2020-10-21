@@ -6,16 +6,15 @@ export default async function getAbogados(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { method } = req;
   await dbConnect();
 
-  switch (method) {
-    case "GET":
-      const abogados = await Models.AbogadoModel.find({});
+  const abogados = await Models.AbogadoModel.find({});
 
-      res.status(200).json(abogados);
-      break;
-    case "POST":
+  res.status(200).json(abogados);
+}
+
+/*
+  case "POST":
       Models.AbogadoModel.create(req.body)
         .then((abogado) =>
           res.status(201).json({ msg: "Abogado creado con exito" })
@@ -24,6 +23,4 @@ export default async function getAbogados(
       break;
     default:
       res.status(400).json({ msg: "no Match" });
-      break;
-  }
-}
+      break;*/
