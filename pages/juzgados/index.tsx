@@ -113,7 +113,7 @@ const Juzgados = ({ juzgados }: JuzgadosProps) => {
   );
 };
 
-Juzgado.getInitialProps = async () => {
+Juzgados.getInitialProps = async () => {
   /* const cookie = ctx.req?.headers.cookie;
   if (!cookie) {
     ctx.res?.writeHead(302, {
