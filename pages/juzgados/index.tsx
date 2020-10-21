@@ -13,6 +13,7 @@ import {
 import { JuzgadoData, Secretaria } from "../../Interfaces/Causa";
 import { GetServerSideProps, GetStaticProps } from "next";
 import ValidationUser from "../../components/validatationUser/ValidationUser";
+import Juzgado from "../../models/Juzgado";
 
 interface JuzgadosProps {
   juzgados?: any;
@@ -112,7 +113,7 @@ const Juzgados = ({ juzgados }: JuzgadosProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+Juzgado.getInitialProps = async () => {
   /* const cookie = ctx.req?.headers.cookie;
   if (!cookie) {
     ctx.res?.writeHead(302, {
