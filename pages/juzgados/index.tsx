@@ -127,9 +127,7 @@ Juzgados.getInitialProps = async () => {
   const response = await Axios.get(juzgadoRoutes.juzgadoTodos);
 
   return {
-    props: {
-      juzgados: JSON.parse(JSON.stringify(response.data.data)),
-    },
+    juzgados: JSON.parse(JSON.stringify(response.data.data)),
   };
 };
 
