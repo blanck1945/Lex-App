@@ -1,12 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "../../db/dbConnect";
-import { Models } from "../../models";
-import nextConnect from "next-connect";
-import CorsHandler from "./middleware/Cors";
-import handler from "../../util/handler";
+import dbConnect from "../../../db/dbConnect";
+import { Models } from "../../../models";
+import handler from "../../../util/handler";
 
 export default handler
-  .get(async (req, res) => {
+  .get(async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
     console.log(req.url);
     const abogados = await Models.AbogadoModel.find({});
