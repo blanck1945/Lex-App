@@ -1,17 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../db/dbConnect";
 import { Models } from "../../models";
+import nextConnect from "next-connect";
 
-export default async function getAbogados(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  await dbConnect();
+export default nextConnect<NextApiRequest, NextApiResponse>().get(
+  async (req, res) => {
+    await dbConnect();
 
-  const abogados = await Models.AbogadoModel.find({});
+    const abogados = await Models.AbogadoModel.find({});
 
-  res.status(200).json(abogados);
-}
+    res.status(200).json(abogados);
+  }
+);
 
 /*
   case "POST":

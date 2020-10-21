@@ -57,14 +57,18 @@ const Abogados = ({ abogados }: AbogadosProps) => {
   return (
     <div className="is-flex is-justify-evenly">
       <div className="is-flex has-background-light  is-dis-col is-h-full is-wm-45">
-        {abogadosArr === undefined && (
-          <h3 className="has-text-judicial is-bold font-size-3 is-flex is-hm-300 is-align-center  is-justify-center">
-            No hay abogados agregados
-          </h3>
-        )}
-        {abogadosArr !== undefined && abogadosArr.data.length !== 0
-          ? abogadosArr.data.map((abogado: AbogadoInterface) => (
-              <div className="is-w-full has-background-white is-sha-p  mb-4 pl-2 py-2 ">
+        {abogadosArr === undefined ||
+          (abogadosArr.lenght === 0 && (
+            <h3 className="has-text-judicial is-bold font-size-3 is-flex is-hm-300 is-align-center  is-justify-center">
+              No hay abogados agregados
+            </h3>
+          ))}
+        {abogadosArr
+          ? abogadosArr.map((abogado: AbogadoInterface, index: number) => (
+              <div
+                className="is-w-full has-background-white is-sha-p  mb-4 pl-2 py-2"
+                key={index}
+              >
                 <h3 className="is-bold">Doctor/ra: {abogado.abogado}</h3>
                 <h3 className="is-bold">
                   Especialidad: {abogado.especialidad}
