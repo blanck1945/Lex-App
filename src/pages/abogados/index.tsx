@@ -14,6 +14,7 @@ import DBinit from "../../../db/firebase.config";
 import ValidationUser from "../../components/validatationUser/ValidationUser";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import SWRHandler from "../../components/SWRhandler/SWRhandler";
 
 interface AbogadosProps {
   abogados: AbogadoInterface[];
@@ -21,17 +22,10 @@ interface AbogadosProps {
 
 const Abogados = ({ abogados }: AbogadosProps) => {
   const router = useRouter();
-  const { data: animes, error } = useSWR(prefix + "animes", AxiosFetch);
-  console.log(animes);
-  const abogadosArr = [];
+  const { data: abogadosArr, error } = useSWR(prefix + "animes", AxiosFetch);
 
-  if (error) return <div>Failed to load</div>;
-  if (!animes)
-    return (
-      <div className="is-flex is-align-center is-justify-center is-w-full ">
-        <Loader type="Rings" color="#034ea2" height={160} width={160} />
-      </div>
-    );
+  if (error) return <SWRHandler control="error" />;
+  if (!abogadosArr) return <SWRHandler control="succ" />;
 
   const handleAbogado = async (values: any) => {
     const abogado = {

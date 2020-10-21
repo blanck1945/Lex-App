@@ -37,6 +37,7 @@ const Causas = ({ causas }: CausasProps) => {
     router.push("/");
   }
 
+  const [allCausas, setAllCausas] = useState<any>([]);
   const [causaDis, setCausaDis] = useState<string>("Ver Causas");
   const [succMsg, setSuccMsg] = useState<SuccMsgInterface>({
     msg: "",
@@ -45,6 +46,10 @@ const Causas = ({ causas }: CausasProps) => {
   });
 
   useEffect(() => {
+    if (allCausas === undefined) {
+      setAllCausas(causas);
+    }
+
     return () => {
       setSuccMsg({
         msg: "",
@@ -64,6 +69,10 @@ const Causas = ({ causas }: CausasProps) => {
         method: "POST",
         url: causaRoutes.causasTodas,
         data: causa,
+      });
+      setAllCausas({
+        ...allCausas,
+        causa,
       });
       setSuccMsg({
         state: true,
@@ -95,7 +104,7 @@ const Causas = ({ causas }: CausasProps) => {
           Agregar Causa
         </span>
       </div>
-      {causas.length === 0 && (
+      {allCausas.length === 0 && (
         <h4 className="has-text-judicial font-size-3 is-bold">
           No hay causas para mostrar
         </h4>
@@ -103,7 +112,7 @@ const Causas = ({ causas }: CausasProps) => {
       <div className="is-w-full has-background-light  pl-2 is-flex is-justify-center is-dis-col is-align-center">
         {causaDis === "Ver Causas" ? (
           <div className="container-causa  mt-2 ">
-            {causas.length !== 0 &&
+            {allCausas.length !== 0 &&
               causas.map((el: CausaInterface) => (
                 <CausaComp key={el._id} causa={el} />
               ))}

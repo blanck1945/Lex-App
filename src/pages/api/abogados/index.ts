@@ -1,9 +1,28 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../../db/dbConnect";
 import { Models } from "../../../../models";
-import handler from "../../../util/handler";
+import Cors from "cors";
+import initMiddleware from "../../../util/middleware";
 
-export default handler
+// Initialize the cors middleware
+const cors = initMiddleware(
+  // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
+  Cors({
+    // Only allow requests with GET, POST and OPTIONS
+    methods: ["GET", "POST"],
+  })
+);
+
+export default async function handler(req, res) {
+  await cors(req, res);
+  dbConnect();
+
+  const abogados = await Models.AbogadoModel.find({});
+
+  res.status(200).json(abogados);
+}
+
+/*export default handler
   .get(async (req: NextApiRequest, res: NextApiResponse) => {
     await dbConnect();
     console.log(req.url);
@@ -13,7 +32,7 @@ export default handler
   })
   .post((req, res) => {});
 
-/*
+
   case "POST":
       Models.AbogadoModel.create(req.body)
         .then((abogado) =>
