@@ -6,14 +6,14 @@ import { AutenthicateUser } from "../middleware/Auth";
 
 dbConnect();
 
-export default async (req, res) => {
+export default async function getData(req, res) {
   const { method } = req;
 
   switch (method) {
     case "GET":
-      const abogados = await Abogado.find({});
+      const abogados = await Models.AbogadoModel.find({});
 
-      res.status(200).json(getRes(abogados));
+      res.status(200).send(getRes(JSON.parse(JSON.stringify(abogados))));
       break;
     case "POST":
       Models.AbogadoModel.create(req.body)
@@ -26,4 +26,4 @@ export default async (req, res) => {
       res.status(400).json({ msg: "no Match" });
       break;
   }
-};
+}
