@@ -1,10 +1,6 @@
 import Axios from "axios";
-import { GetServerSideProps } from "next";
-import { useEffect, useState } from "react";
 import { abogadosRoutes, prefix } from "../../api/routes";
 import Button from "../../components/Button/Button";
-import ValidationUser from "../../components/validatationUser/ValidationUser";
-import dbConnect from "../../db/dbConnect";
 import {
   abogadoFields,
   abogadosInitialValues,
@@ -13,17 +9,31 @@ import ReactFormControl from "../../formControl/form/ReactFormControl";
 import { AbogadoInterface } from "../../Interfaces/Abogado";
 import useSWR, { mutate } from "swr";
 import AxiosFetch from "../../util/fetcher";
+import Loader from "react-loader-spinner";
+import DBinit from "../../db/firebase.config";
+import ValidationUser from "../../components/validatationUser/ValidationUser";
+import { useEffect } from "react";
 
 interface AbogadosProps {
   abogados: AbogadoInterface[];
 }
 
 const Abogados = ({ abogados }: AbogadosProps) => {
-  const { data: firebaseData } = useSWR(prefix + "firebase", AxiosFetch);
+  const { data: abogadosArr, error } = useSWR(
+    abogadosRoutes.abogadosTodos,
+    AxiosFetch
+  );
 
-  console.log(firebaseData);
+  const { loading, state } = ValidationUser();
+  console.log(loading);
 
-  const abogadosArr = [];
+  if (error) return <div>Failed to load</div>;
+  if (!abogadosArr)
+    return (
+      <div className="is-flex is-align-center is-justify-center is-w-full ">
+        <Loader type="Rings" color="#034ea2" height={160} width={160} />
+      </div>
+    );
 
   const handleAbogado = async (values: any) => {
     const abogado = {
@@ -64,7 +74,7 @@ const Abogados = ({ abogados }: AbogadosProps) => {
               No hay abogados agregados
             </h3>
           ))}
-        {abogadosArr !== undefined
+        {abogadosArr
           ? abogadosArr.map((abogado: AbogadoInterface, index: number) => (
               <div
                 className="is-w-full has-background-white is-sha-p  mb-4 pl-2 py-2"

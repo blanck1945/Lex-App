@@ -1,31 +1,41 @@
 import Axios from "axios";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { usuarioRoute } from "../../api/routes";
 import GlobalContext from "../../context/globalContext";
 import DBinit from "../../db/firebase.config";
 
+interface Validate {
+  loading: boolean;
+  state: boolean;
+}
+
 const ValidationUser = () => {
+  const [validate, setValidate] = useState<Validate>({
+    loading: false,
+    state: false,
+  });
   const { globalState } = useContext(GlobalContext);
 
   useEffect(() => {
-    const validateUser = async () => {
-      try {
-        const user = await DBinit().auth().currentUser;
-
+    DBinit()
+      .auth()
+      .onAuthStateChanged(function (user) {
         if (user) {
-          return true;
+          setValidate({
+            ...validate,
+            state: true,
+          });
+          globalState.setGlobalVar(true);
+        } else {
+          setValidate({
+            ...validate,
+            state: true,
+          });
         }
-
-        return false;
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    validateUser();
+      });
   }, []);
 
-  return;
+  return validate;
 };
 
 export default ValidationUser;

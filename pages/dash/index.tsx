@@ -11,8 +11,6 @@ interface HomeProps {
 }
 
 const Home = ({ causa }: HomeProps) => {
-  ValidationUser();
-
   return (
     <div className="pt-4">
       <HomeDis label="Causas" causas={causa} />

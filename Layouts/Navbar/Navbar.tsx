@@ -3,9 +3,12 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import { useContext } from "react";
 import { usuarioRoutes } from "../../api/routes";
+import ValidationUser from "../../components/validatationUser/ValidationUser";
 import GlobalContext from "../../context/globalContext";
 
 const Navbar = () => {
+  const { state } = ValidationUser();
+
   const { globalState } = useContext(GlobalContext);
   const router = useRouter();
 
@@ -19,13 +22,20 @@ const Navbar = () => {
     }
   };
 
+  if (!state)
+    return (
+      <div className="has-background-judicial is-flex is-justify-between is-align-center is-w-full is-h-100">
+        <h1 className="title  ml-4 is-click has-text-white mb-2">La Ley</h1>
+      </div>
+    );
+
   return (
     <div className="has-background-judicial is-flex is-justify-between is-align-center is-w-full is-h-100">
-      <h1 className="title mt-4 ml-4 is-click has-text-white">La Ley</h1>
+      <h1 className="title mt-4 ml-4 is-click has-text-white ">La Ley</h1>
       {!globalState.globalVar ? (
         <a className="has-text-white font-size-4 pr-4">Iniciar Sesión</a>
       ) : (
-        <div className="is-flex column is-justify-evenly is-3/4 ">
+        <div className="is-flex column is-justify-evenly is-two-thirds ">
           <Link href="/dash">
             <a className="has-text-white font-size-4">Dash</a>
           </Link>
