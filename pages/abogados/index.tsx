@@ -19,16 +19,12 @@ interface AbogadosProps {
 }
 
 const Abogados = ({ abogados }: AbogadosProps) => {
-  const { data: abogadosArr, error } = useSWR(
-    abogadosRoutes.abogadosTodos,
-    AxiosFetch
-  );
-
-  const { loading, state } = ValidationUser();
-  console.log(loading);
+  const { data: animes, error } = useSWR(prefix + "animes", AxiosFetch);
+  console.log(animes);
+  const abogadosArr = [];
 
   if (error) return <div>Failed to load</div>;
-  if (!abogadosArr)
+  if (!animes)
     return (
       <div className="is-flex is-align-center is-justify-center is-w-full ">
         <Loader type="Rings" color="#034ea2" height={160} width={160} />
