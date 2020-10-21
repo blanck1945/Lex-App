@@ -16,6 +16,8 @@ import Causa from "../../models/Causa";
 import { useRouter } from "next/router";
 import getConfig from "next/config";
 import ValidationUser from "../../components/validatationUser/ValidationUser";
+import dbConnect from "../../db/dbConnect";
+import { Models } from "../../models";
 
 interface CausasProps {
   causas: CausaInterface[];
@@ -136,10 +138,12 @@ const Causas = ({ causas }: CausasProps) => {
 //const { publicRuntimeConfig } = getConfig();
 
 export async function getStaticProps(ctx) {
-  const { data } = await Axios.get(causaRoutes.causasTodas);
+  await dbConnect()
+
+  const causas = await Models.CausaModel.find({})
   return {
     props: {
-      causas: data.data,
+      causas: JSON.parse(JSON.stringify(causas)),
     },
   };
 }
