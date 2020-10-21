@@ -49,8 +49,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
             })
           );
 
-          res.end(succMsg);
-          resolve();
+          return resolve(res.end(succMsg));
         }
       });
     } catch (error) {

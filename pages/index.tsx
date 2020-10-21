@@ -9,6 +9,7 @@ import GlobalContext from "../context/globalContext";
 import Loader from "react-loader-spinner";
 import getConfig from "next/config";
 import ValidationUser from "../components/validatationUser/ValidationUser";
+import DBinit from "../db/firebase.config";
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -47,12 +48,9 @@ const Login = () => {
     //window.localStorage.setItem("item", res.data.succes);
     console.log(data);
 
-    console.log("Validando Usuario");
     ValidationUser();
-    console.log("Utilizando Router");
     Router.push("/dash");
 
-    console.log("Reseteando los valores del formulario");
     return true;
   };
 
@@ -86,14 +84,18 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    const { data } = await Axios({
-      method: "POST",
-      url: usuarioRoutes.loginRoute,
-      data: user,
-    });
-
-    Router.push("/dash");
-    console.log(data);
+    DBinit()
+      .auth()
+      .signInWithEmailAndPassword(user.usuario, user.password)
+      .then((user) => {
+        if (user) {
+          globalState.setGlobalVar(true);
+          Router.push("/dash");
+        } else {
+          setErrorMsg("Error de autenticación");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const formClass = "has-background-white is-flex is-dis-col is-align-center";
@@ -135,6 +137,14 @@ const Login = () => {
                   }
                 />
               </div>
+              {errorMsg && (
+                <h4
+                  className={errorClass}
+                  onClick={() => setErrorMsg(undefined)}
+                >
+                  {errorMsg}
+                </h4>
+              )}
               <button className="has-background-judicial px-2 py-2 button my-4 has-text-white m-auto is-bor-4">
                 Iniciar Sesión
               </button>
