@@ -1,4 +1,4 @@
-import Button from "../../../components/Button/Button";
+import Button from "../../../src/components/Button/Button";
 import { styleValues } from "../Forms/JuzgadoForm/juzgadoInputs";
 import ReactFormControl from "../ReactFormControl";
 
