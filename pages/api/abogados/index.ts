@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../db/dbConnect";
 import { Models } from "../../../models";
-import Abogado from "../../../models/Abogados";
-import { getRes } from "../../../util/funcs";
-import { AutenthicateUser } from "../middleware/Auth";
 
 export default async function getAbogados(
   req: NextApiRequest,
