@@ -16,6 +16,10 @@ const Login = () => {
   const [loginDis, setLoginDis] = useState<boolean>(true);
   const [errorMsg, setErrorMsg] = useState<string>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
+  const [user, setUser] = useState<any>({
+    usuario: "",
+    password: "",
+  });
 
   const { globalState } = useContext(GlobalContext);
 
@@ -78,6 +82,20 @@ const Login = () => {
     return pass === pass2 ? true : false;
   };
 
+  const postearUsuario = async (e: any) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { data } = await Axios({
+      method: "POST",
+      url: usuarioRoutes.loginRoute,
+      data: user,
+    });
+
+    Router.push("/dash");
+    console.log(data);
+  };
+
   const formClass = "has-background-white is-flex is-dis-col is-align-center";
   const h4Class = "is-flex  is-justify-center pb-4 py-2 font-size-3";
   const errorClass =
@@ -94,15 +112,33 @@ const Login = () => {
         <>
           <Header>{loginDis ? "Iniciar Sesion" : "Registrar Usuario"}</Header>
           {loginDis ? (
-            <>
-              <UserAndPassword submit={logUser} form_class={formClass} />
-              <h4 className={h4Class}>
-                Si no tiene cuenta{" "}
-                <span className={spanClass} onClick={() => setLoginDis(false)}>
-                  registrese
-                </span>
-              </h4>
-            </>
+            <form onSubmit={postearUsuario}>
+              <div>
+                <label>Usuario</label>
+                <input
+                  type="text"
+                  placeholder="usuario"
+                  value={user.usuario}
+                  onChange={(e) =>
+                    setUser({ ...user, usuario: e.target.value })
+                  }
+                />
+              </div>
+              <div>
+                <label>Password</label>
+                <input
+                  type="text"
+                  placeholder="Password"
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser({ ...user, password: e.target.value })
+                  }
+                />
+              </div>
+              <button className="has-background-judicial px-2 py-2 button my-4 has-text-white m-auto is-bor-4">
+                Iniciar Sesión
+              </button>
+            </form>
           ) : (
             <>
               <UserAndEmailAndPassword
@@ -135,3 +171,12 @@ const Login = () => {
 };
 
 export default Login;
+
+/*
+  <UserAndPassword submit={logUser} form_class={formClass} />
+              <h4 className={h4Class}>
+                Si no tiene cuenta{" "}
+                <span className={spanClass} onClick={() => setLoginDis(false)}>
+                  registrese
+                </span>
+              </h4>*/

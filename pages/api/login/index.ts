@@ -14,50 +14,53 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  try {
-    const erroMsg = "Algo fallo en la autenticación";
-    const succMsg = "Usuario validado con exito";
+  return new Promise(async (resolve) => {
+    try {
+      const erroMsg = "Algo fallo en la autenticación";
+      const succMsg = "Usuario validado con exito";
 
-    const registerUser = await Models.UsuarioModel.findOne({
-      usuario: req.body.usuario,
-    });
-    if (!registerUser) {
-      res.status(400).json({
-        msg: erroMsg,
+      const registerUser = await Models.UsuarioModel.findOne({
+        usuario: req.body.usuario,
       });
-    }
-
-    await compare(req.body.password, registerUser.password, async function (
-      err,
-      result
-    ) {
-      if (!err && result) {
-        const token = sign(
-          { userID: registerUser._id, userEmail: registerUser.email },
-          process.env.JWT_SECRET,
-          { expiresIn: "3h" }
-        );
-
-        res.setHeader(
-          "Set-Cookie",
-          cookie.serialize("authCookie", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV !== "development",
-            maxAge: 3600 * 3,
-            path: "/",
-          })
-        );
-
-        res.end(succMsg);
+      if (!registerUser) {
+        res.status(400).json({
+          msg: erroMsg,
+        });
       }
-    });
-  } catch (error) {
-    res.status(401).end(error.message);
-  }
+
+      await compare(req.body.password, registerUser.password, async function (
+        err,
+        result
+      ) {
+        if (!err && result) {
+          const token = sign(
+            { userID: registerUser._id, userEmail: registerUser.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "3h" }
+          );
+
+          res.setHeader(
+            "Set-Cookie",
+            cookie.serialize("authCookie", token, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV !== "development",
+              maxAge: 3600 * 3,
+              path: "/",
+            })
+          );
+
+          res.end(succMsg);
+          resolve();
+        }
+      });
+    } catch (error) {
+      res.status(401).end(error.message);
+    }
+  });
 }
 
 /*
-
+      
             //res.status(200).json({ response: { ...getRes(succMsg) } });
             /*res.status(200).send({
               succes: true,
