@@ -13,12 +13,14 @@ import Loader from "react-loader-spinner";
 import DBinit from "../../db/firebase.config";
 import ValidationUser from "../../components/validatationUser/ValidationUser";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface AbogadosProps {
   abogados: AbogadoInterface[];
 }
 
 const Abogados = ({ abogados }: AbogadosProps) => {
+  const router = useRouter();
   const { data: animes, error } = useSWR(prefix + "animes", AxiosFetch);
   console.log(animes);
   const abogadosArr = [];
