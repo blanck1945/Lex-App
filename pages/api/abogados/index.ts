@@ -1,19 +1,22 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../db/dbConnect";
 import { Models } from "../../../models";
 import Abogado from "../../../models/Abogados";
 import { getRes } from "../../../util/funcs";
 import { AutenthicateUser } from "../middleware/Auth";
 
-dbConnect();
-
-export default async function getData(req, res) {
+export default async function getAbogados(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const { method } = req;
+  await dbConnect();
 
   switch (method) {
     case "GET":
       const abogados = await Models.AbogadoModel.find({});
 
-      res.status(200).send(getRes(JSON.parse(JSON.stringify(abogados))));
+      res.status(200).json(abogados);
       break;
     case "POST":
       Models.AbogadoModel.create(req.body)
