@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
-import { abogadosRoutes } from "../../api/routes";
+import { abogadosRoutes, prefix } from "../../api/routes";
 import Button from "../../components/Button/Button";
 import ValidationUser from "../../components/validatationUser/ValidationUser";
 import dbConnect from "../../db/dbConnect";
@@ -19,10 +19,12 @@ interface AbogadosProps {
 }
 
 const Abogados = ({ abogados }: AbogadosProps) => {
-  const { data: abogadosArr } = useSWR(
-    abogadosRoutes.abogadosTodos,
-    AxiosFetch
-  );
+  const { data: firebaseData } = useSWR(prefix + "firebase", AxiosFetch);
+
+  console.log(firebaseData);
+
+  const abogadosArr = [];
+
   const handleAbogado = async (values: any) => {
     const abogado = {
       ...values,
@@ -53,17 +55,16 @@ const Abogados = ({ abogados }: AbogadosProps) => {
       console.log(err);
     }
   };
-
   return (
     <div className="is-flex is-justify-evenly">
       <div className="is-flex has-background-light  is-dis-col is-h-full is-wm-45">
         {abogadosArr === undefined ||
-          (abogadosArr.lenght === 0 && (
+          (abogadosArr.length === 0 && (
             <h3 className="has-text-judicial is-bold font-size-3 is-flex is-hm-300 is-align-center  is-justify-center">
               No hay abogados agregados
             </h3>
           ))}
-        {abogadosArr
+        {abogadosArr !== undefined
           ? abogadosArr.map((abogado: AbogadoInterface, index: number) => (
               <div
                 className="is-w-full has-background-white is-sha-p  mb-4 pl-2 py-2"
