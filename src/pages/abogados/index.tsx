@@ -19,7 +19,7 @@ interface AbogadosProps {
 
 const Abogados = ({ abogados }: AbogadosProps) => {
   const router = useRouter();
-  const { data: abogadosArr, error } = useSWR(prefix + "abogados", AxiosFetch);
+  const { data: abogadosArr, error } = useSWR("/api/abogados", AxiosFetch);
   if (error) return <SWRHandler control="error" />;
   if (!abogadosArr) return <SWRHandler control="succ" />;
 
