@@ -5,10 +5,10 @@ export const rootURL =
     ? "http://localhost:3000/"
     : "https://lex-app.vercel.app/";
 
-export const prefix =
-  env !== "development"
-    ? "https://lex-app.vercel.app/api/"
-    : "http://localhost:3000/api/";
+/*  env !== "development"
+    ? "https://lex-app.vercel.app/api/"*/
+
+export const prefix = "http://localhost:3000/api/";
 
 //"https://lex-app.vercel.app/api/"
 
