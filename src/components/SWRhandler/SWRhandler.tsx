@@ -1,3 +1,5 @@
+import Loader from "react-loader-spinner";
+
 interface SWRHandlerProps {
   control: string;
 }
@@ -13,7 +15,7 @@ const SWRHandler = ({ control }: SWRHandlerProps) => {
 
   return (
     <div className="container has-background-light">
-      <h3 className="has-text-info">Loading</h3>
+      <Loader type="Rings" color="#034ea2" height={160} width={160} />
     </div>
   );
 };

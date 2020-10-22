@@ -11,16 +11,12 @@ import getConfig from "next/config";
 import ValidationUser from "../components/validatationUser/ValidationUser";
 import DBinit from "../../db/firebase.config";
 
-const { publicRuntimeConfig } = getConfig();
+//const { publicRuntimeConfig } = getConfig();
 
 const Login = () => {
   const [loginDis, setLoginDis] = useState<boolean>(true);
   const [errorMsg, setErrorMsg] = useState<string>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
-  const [user, setUser] = useState<any>({
-    usuario: "",
-    password: "",
-  });
 
   const { globalState } = useContext(GlobalContext);
 

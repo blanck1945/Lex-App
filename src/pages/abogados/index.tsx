@@ -9,10 +9,7 @@ import ReactFormControl from "../../../formControl/form/ReactFormControl";
 import { AbogadoInterface } from "../../../Interfaces/Abogado";
 import useSWR, { mutate } from "swr";
 import AxiosFetch from "../../util/fetcher";
-import Loader from "react-loader-spinner";
-import DBinit from "../../../db/firebase.config";
 import ValidationUser from "../../components/validatationUser/ValidationUser";
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 import SWRHandler from "../../components/SWRhandler/SWRhandler";
 
@@ -22,8 +19,8 @@ interface AbogadosProps {
 
 const Abogados = ({ abogados }: AbogadosProps) => {
   const router = useRouter();
-  const { data: abogadosArr, error } = useSWR(prefix + "animes", AxiosFetch);
-
+  const { data: abogadosArr, error } = useSWR(prefix + "abogados", AxiosFetch);
+  console.log(abogadosArr);
   if (error) return <SWRHandler control="error" />;
   if (!abogadosArr) return <SWRHandler control="succ" />;
 
@@ -66,7 +63,7 @@ const Abogados = ({ abogados }: AbogadosProps) => {
               No hay abogados agregados
             </h3>
           ))}
-        {abogadosArr
+        {abogadosArr !== undefined
           ? abogadosArr.map((abogado: AbogadoInterface, index: number) => (
               <div
                 className="is-w-full has-background-white is-sha-p  mb-4 pl-2 py-2"
